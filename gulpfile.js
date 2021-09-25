@@ -15,7 +15,7 @@ exports.default = function () {
 };
 
 gulp.task( 'css', function () {
-    return src( 'src/css/global.css' )
+    return src( 'src/css/plugin.css' )
         .pipe( dest( 'dist' ) )
         .pipe( cssmin() )
         .pipe( rename( { extname: '.min.css' } ) )

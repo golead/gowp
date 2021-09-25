@@ -122,6 +122,10 @@
     border-radius: 5px;
 }
 
+#golead-wpp .box-whatsapp .box-body .text-error{
+    color: #e3342f;
+}
+
 @media (min-width: 768px) {
     #golead-wpp .box-whatsapp {
         width: 50%;

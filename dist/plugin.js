@@ -7,19 +7,7 @@ const paramsToObject = entries => {
   }
 
   return result;
-}; // const loadFileCss = () => {
-//      // Get HTML head element
-//      var head = document.getElementsByTagName('HEAD')[0]; 
-//      // Create new link Element
-//      var link = document.createElement('link');
-//      // set the attributes for link element 
-//      link.rel = 'stylesheet'; 
-//      link.type = 'text/css';
-//      link.href = './src/css/global.css'; 
-//      // Append link element to HTML head
-//      head.appendChild(link); 
-// }
-
+};
 
 const closeBoxGowp = () => {
   let boxWpp = document.getElementById('box-gowp');
@@ -27,41 +15,46 @@ const closeBoxGowp = () => {
 };
 
 const handleSendGowp = async () => {
+  document.getElementById('text-not-loading-wp').style.display = 'none';
+  document.getElementById('text-loading-wp').style.display = 'block';
   let scriptFile = document.getElementById('gowpchat');
   let scriptFileURL = scriptFile.getAttribute('src');
   let urlCustom = new URL(scriptFileURL);
   let params = paramsToObject(urlCustom.searchParams.entries());
   let text = 'Olá, vamos conversar?';
-
-  try {
-    let dataToSend = {
-      from: "gowhatsapp",
-      cd_find: params.cd_find,
-      nome: document.getElementById('name-input-gowp').value,
-      email: document.getElementById('email-input-gowp').value,
-      telefone: document.getElementById('phone-input-gowp').value,
-      observacao: "Mensagem envia no WhatsApp"
-    };
-    fetch('http://192.168.0.13:8000/api/register-lead', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(dataToSend)
-    }).then(res => res.json()).then(res => console.log(res));
-  } catch (error) {
+  let dataToSend = {
+    from: "gowhatsapp",
+    cd_find: params.cd_find,
+    nome: document.getElementById('name-input-gowp').value,
+    email: document.getElementById('email-input-gowp').value,
+    telefone: document.getElementById('phone-input-gowp').value,
+    observacao: "Mensagem envia no WhatsApp"
+  };
+  fetch('http://192.168.0.13:8000/api/register-lead', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify(dataToSend)
+  }).then(res => res.json()).then(res => {
+    let contentTextErrro = document.getElementById('text-error-wp');
+    contentTextErrro.style.display = 'none';
+    document.getElementById('text-not-loading-wp').style.display = 'block';
+    document.getElementById('text-loading-wp').style.display = 'none';
+    window.location.href = `https://api.whatsapp.com/send?phone=${params.cd_wp}&text=${text}`;
+  }).catch(error => {
     console.log(error);
-  }
-
-  window.location.href = `https://api.whatsapp.com/send?phone=${params.cd_wp}&text=${text}`;
+    document.getElementById('text-not-loading-wp').style.display = 'block';
+    document.getElementById('text-loading-wp').style.display = 'none';
+    document.getElementById('text-error-wp').style.display = 'block';
+  });
 };
 
 const loadButton = () => {
   let goWpContentPlugin = document.createElement("div");
-  goWpContentPlugin.setAttribute("id", "golead-wpp"); // loadFileCss();
-
+  goWpContentPlugin.setAttribute("id", "golead-wpp");
   let btn = document.createElement("button");
   let boxWhats = document.createElement("div");
   btn.setAttribute('id', 'btn-gowpp');
@@ -81,7 +74,11 @@ const loadButton = () => {
                 <input type="text" class="input-custom" placeholder="Nome" id="name-input-gowp" required />
                 <input type="email" class="input-custom" placeholder="E-mail" id="email-input-gowp" required />
                 <input type="text" class="input-custom" placeholder="Telefone" id="phone-input-gowp" required />
-                <button type="button" class="btn-send-wpp" onclick="handleSendGowp();">Vamos lá!</button>
+                <button type="button" class="btn-send-wpp" onclick="handleSendGowp();">
+                    <span id="text-not-loading-wp">Vamos lá!</span>
+                    <span id="text-loading-wp" style="display: none">Carregando...</span>
+                </button>
+                <span class="text-error" id="text-error-wp" style="display: none">Ocorreu um problema inesperado! Tente mais tarde.</span>
             </form>
         </div>
     </div>

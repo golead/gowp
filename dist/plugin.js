@@ -24,32 +24,34 @@ const handleSendGowp = async () => {
   let text = 'Olá, vamos conversar?';
   let dataToSend = {
     from: "gowhatsapp",
-    cd_find: params.cd_find,
+    cd_user: params.cd_user,
+    ref_channel: params.ref_channel,
     nome: document.getElementById('name-input-gowp').value,
     email: document.getElementById('email-input-gowp').value,
     telefone: document.getElementById('phone-input-gowp').value,
     observacao: "Mensagem envia no WhatsApp"
   };
-  fetch('http://192.168.0.13:8000/api/register-lead', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
-    body: JSON.stringify(dataToSend)
-  }).then(res => res.json()).then(res => {
+
+  try {
+    await fetch('http://localhost:3001/prod/send-lead-whatsapp', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dataToSend)
+    }).then(res => res.json());
     let contentTextErrro = document.getElementById('text-error-wp');
     contentTextErrro.style.display = 'none';
     document.getElementById('text-not-loading-wp').style.display = 'block';
     document.getElementById('text-loading-wp').style.display = 'none';
     window.location.href = `https://api.whatsapp.com/send?phone=${params.cd_wp}&text=${text}`;
-  }).catch(error => {
+  } catch (error) {
     console.log(error);
     document.getElementById('text-not-loading-wp').style.display = 'block';
     document.getElementById('text-loading-wp').style.display = 'none';
     document.getElementById('text-error-wp').style.display = 'block';
-  });
+  }
 };
 
 const loadButton = () => {

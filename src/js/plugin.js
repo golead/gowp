@@ -33,7 +33,7 @@ const handleSendGowp = async () => {
     }
 
     try {
-        await fetch( 'https://kze0xastg5.execute-api.us-east-1.amazonaws.com/prod/send-lead-whatsapp', {
+        await fetch( 'https://59xpl1t17g.execute-api.us-east-1.amazonaws.com/dev/send-lead-whatsapp', {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -48,7 +48,7 @@ const handleSendGowp = async () => {
         document.getElementById( 'text-not-loading-wp' ).style.display = 'block';
         document.getElementById( 'text-loading-wp' ).style.display = 'none';
 
-        // window.location.href = `https://api.whatsapp.com/send?phone=${params.cd_wp}&text=${text}`;
+        window.location.href = `https://api.whatsapp.com/send?phone=${params.cd_wp}&text=${text}`;
     } catch ( error ) {
         console.log( error );
         document.getElementById( 'text-not-loading-wp' ).style.display = 'block';

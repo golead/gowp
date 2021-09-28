@@ -44,8 +44,7 @@ const handleSendGowp = async () => {
     let contentTextErrro = document.getElementById('text-error-wp');
     contentTextErrro.style.display = 'none';
     document.getElementById('text-not-loading-wp').style.display = 'block';
-    document.getElementById('text-loading-wp').style.display = 'none';
-    window.location.href = `https://api.whatsapp.com/send?phone=${params.cd_wp}&text=${text}`;
+    document.getElementById('text-loading-wp').style.display = 'none'; // window.location.href = `https://api.whatsapp.com/send?phone=${params.cd_wp}&text=${text}`;
   } catch (error) {
     console.log(error);
     document.getElementById('text-not-loading-wp').style.display = 'block';

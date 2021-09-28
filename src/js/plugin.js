@@ -33,7 +33,7 @@ const handleSendGowp = async () => {
     }
 
     try {
-        await fetch( 'http://localhost:3001/prod/send-lead-whatsapp', {
+        await fetch( 'https://kze0xastg5.execute-api.us-east-1.amazonaws.com/prod/send-lead-whatsapp', {
             method: 'POST',
             mode: 'cors',
             headers: {
